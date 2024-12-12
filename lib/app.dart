@@ -1,14 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:task_master/pages /loginpage.dart';
+import 'package:provider/provider.dart';
+import 'package:task_master/pages/dashboard.dart';
+import 'package:task_master/pages/loginpage.dart';
+import 'package:task_master/pages/profilepage.dart';
+import 'package:task_master/provider/loginprovider.dart';
 
 class TaskMasterApp extends StatelessWidget {
   const TaskMasterApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: OnboardingScreen(),
+    return Consumer<LoginProvider>(
+      builder: (context, loginProvider, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          home: loginProvider.user == null ? OnboardingScreen() : Dashboard(),
+          routes: {
+            '/dashboard': (context) => Dashboard(),
+            '/profile': (context) => ProfilePage(),
+          },
+        );
+      },
     );
   }
 }

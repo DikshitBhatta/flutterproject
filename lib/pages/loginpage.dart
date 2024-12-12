@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:task_master/services/auth.dart';
+import 'package:provider/provider.dart';
+import 'package:task_master/provider/loginprovider.dart';
 import 'package:task_master/widgets/loginbutton.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -8,15 +9,13 @@ class OnboardingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Create an instance of AuthMethods
-    final AuthMethods authMethods = AuthMethods();
+    final loginProvider = Provider.of<LoginProvider>(context);
 
     return Scaffold(
       backgroundColor: Colors.lightBlue[50],
       body: Center(
         child: Column(
-          mainAxisSize: MainAxisSize
-              .min, // Ensure the content takes minimal vertical space
+          mainAxisSize: MainAxisSize.min,
           children: [
             Text(
               "Welcome Onboard!",
@@ -34,19 +33,15 @@ class OnboardingScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 40),
-            // Google Login Button
-            Image.asset('assets/google.png'),
-
             LoginButton(
               onPressed: () async {
-                await authMethods.signInWithGoogle(context);
+                await loginProvider.signInWithGoogle(context);
               },
               backgroundColor: Colors.white,
               icon: Icon(FontAwesomeIcons.google, color: Colors.red),
               label: "Log in with Google",
             ),
             SizedBox(height: 16),
-            // Facebook Login Button
             LoginButton(
               icon: Icon(Icons.facebook, color: Colors.white),
               label: "Log in with Facebook",

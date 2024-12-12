@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:task_master/provider/loginprovider.dart';
 
 class Dashboard extends StatelessWidget {
   const Dashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final loginProvider = Provider.of<LoginProvider>(context);
+    final user = loginProvider.user;
+
+    debugPrint("Dashboard: User - ${user?.displayName}");
+
     return Scaffold(
       backgroundColor: Colors.blue[50],
       body: SafeArea(
@@ -21,7 +28,7 @@ class Dashboard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Olivia,',
+                        user?.displayName ?? 'User Name',
                         style: TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -36,7 +43,9 @@ class Dashboard extends StatelessWidget {
                   CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.blue[200],
-                    child: Icon(Icons.person, size: 30, color: Colors.white),
+                    backgroundImage: user?.photoURL != null
+                        ? NetworkImage(user!.photoURL!)
+                        : AssetImage('assets/default_profile.png') as ImageProvider,
                   ),
                 ],
               ),
@@ -115,9 +124,11 @@ class Dashboard extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Congratulations !!\nDay streak, come back tomorrow to keep it up!",
-                          style: TextStyle(fontSize: 16),
+                        Flexible(
+                          child: Text(
+                            "Congratulations !!\nDay streak, come back tomorrow to keep it up!",
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ),
                         Row(
                           children: [
@@ -252,7 +263,12 @@ class BottomNavigationBar extends StatelessWidget {
           Icon(Icons.access_time, color: Colors.grey, size: 30),
           Icon(Icons.calendar_today, color: Colors.grey, size: 30),
           Icon(Icons.analytics, color: Colors.grey, size: 30),
-          Icon(Icons.person, color: Colors.grey, size: 30),
+          GestureDetector(
+            onTap: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+            child: Icon(Icons.person, color: Colors.grey, size: 30),
+          ),
         ],
       ),
     );
