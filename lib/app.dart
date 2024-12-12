@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:task_master/pages /loginpage.dart';
 
 class TaskMasterApp extends StatelessWidget {
+  const TaskMasterApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: TaskMasterScreen(),
+      home: OnboardingScreen(),
     );
   }
 }
 
 class TaskMasterScreen extends StatelessWidget {
+  const TaskMasterScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

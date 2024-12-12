@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
 
 class LoginButton extends StatelessWidget {
-  final IconData icon;
+  final Widget icon; // Changed from IconData to Widget
   final String label;
   final Color backgroundColor;
   final Color textColor;
   final VoidCallback onPressed;
 
-  LoginButton({
+  const LoginButton({
     required this.icon,
     required this.label,
     required this.backgroundColor,
     this.textColor = Colors.black,
     required this.onPressed,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: onPressed,
-      icon: Icon(icon, color: textColor),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        foregroundColor: textColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        padding: EdgeInsets.symmetric(vertical: 12),
+      ),
+      icon: icon, // Now accepts any widget
       label: Text(
         label,
         style: TextStyle(
+          fontSize: 16,
           color: textColor,
-          fontWeight: FontWeight.w500,
-        ),
-      ),
-      style: ElevatedButton.styleFrom(
-        minimumSize: Size(280, 50),
-        backgroundColor: backgroundColor,
-        elevation: 2,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
         ),
       ),
     );
